@@ -49,3 +49,23 @@ def build_similarity_graph(paths, simhashes, sim_k=3):
                 graph[p1].add(p2)
                 graph[p2].add(p1)
     return graph
+
+def extract_clusters(graph):
+    visited = set()
+    clusters = []
+    for node in graph:
+        if node not in visited:
+            stack = [node]
+            visited.add(node)
+            cluster = []
+            while stack:
+                u = stack.pop()
+                cluster.append(os.path.basename(u))
+                for v in graph[u]:
+                    if v not in visited:
+                        visited.add(v)
+                        stack.append(v)
+            clusters.append(sorted(cluster))
+    clusters.sort(key=lambda c: c[0])
+    return clusters
+
