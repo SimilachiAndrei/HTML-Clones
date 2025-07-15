@@ -13,5 +13,13 @@ def preprocess_html(html):
     text = ' '.join(tree.text_content().split()).lower()
     tokens = text.split()
 
+    tag_counts = {}
+    for el in tree.iter():
+        tag = el.tag
+        tag_counts[tag] = tag_counts.get(tag, 0) + 1
+    tokens += [f"tag_{t}:{c}" for t, c in tag_counts.items()]
+
+
 
     return tokens
+
