@@ -19,6 +19,16 @@ def preprocess_html(html):
         tag_counts[tag] = tag_counts.get(tag, 0) + 1
     tokens += [f"tag_{t}:{c}" for t, c in tag_counts.items()]
 
+    class_set = set()
+    for el in tree.iter():
+        cls = el.get('class')
+        if cls:
+            for c in cls.split():
+                class_set.add(c)
+    tokens += [f"cls_{c}" for c in class_set]
+
+    return tokens
+
 
 
     return tokens
