@@ -1,5 +1,6 @@
 from readability import Document
 from lxml.html import fromstring
+from simhash import Simhash
 
 
 def preprocess_html(html):
@@ -29,7 +30,6 @@ def preprocess_html(html):
 
     return tokens
 
-
-
-    return tokens
+def compute_simhash(tokens, f=64):
+    return Simhash(tokens, f=f)
 
