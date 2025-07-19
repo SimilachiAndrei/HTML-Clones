@@ -2,6 +2,8 @@ import os
 import glob
 import tempfile
 import shutil
+
+from playwright.sync_api import sync_playwright
 from readability import Document
 from simhash import Simhash, SimhashIndex
 from lxml.html import fromstring
@@ -36,6 +38,15 @@ def preprocess_html(html):
 
 def compute_simhash(tokens, f=64):
     return Simhash(tokens, f=f)
+
+def render_html_to_image(html_path, image_path, width=1024, height=768):
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page(viewport={"width": width, "height": height})
+        page.goto('file://' + os.path.abspath(html_path))
+        page.screenshot(path=image_path, full_page=True)
+        browser.close()
+
 
 
 def build_similarity_graph(paths, simhashes, sim_k=3):
