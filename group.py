@@ -69,3 +69,23 @@ def extract_clusters(graph):
     clusters.sort(key=lambda c: c[0])
     return clusters
 
+def cluster_html_directory(
+    directory,
+    sim_k=3,
+    fbits=64,
+):
+
+    html_paths = glob.glob(os.path.join(directory, '*.html'))
+
+    simhashes = {}
+
+    for html in html_paths:
+        html_text = open(html, encoding='utf-8').read()
+        tokens = preprocess_html(html_text)
+        simhashes[html] = compute_simhash(tokens, f=fbits)
+
+    graph = build_similarity_graph(html_paths, simhashes, sim_k)
+    clusters = extract_clusters(graph)
+
+    return clusters
+
