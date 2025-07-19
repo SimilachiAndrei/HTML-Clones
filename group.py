@@ -89,3 +89,17 @@ def cluster_html_directory(
 
     return clusters
 
+if __name__ == '__main__':
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Cluster similar HTML pages')
+    parser.add_argument('directory', help='Path to HTML directory')
+    parser.add_argument('--sim_k', type=int, default=3, help='Max SimHash distance')
+    args = parser.parse_args()
+
+    result = cluster_html_directory(
+        args.directory,
+        sim_k=args.sim_k,
+    )
+    for grp in result:
+        print(grp)
