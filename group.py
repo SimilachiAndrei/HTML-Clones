@@ -2,7 +2,8 @@ import os
 import glob
 import tempfile
 import shutil
-
+import imagehash
+from PIL.Image import Image
 from playwright.sync_api import sync_playwright
 from readability import Document
 from simhash import Simhash, SimhashIndex
@@ -36,9 +37,6 @@ def preprocess_html(html):
 
     return tokens
 
-def compute_simhash(tokens, f=64):
-    return Simhash(tokens, f=f)
-
 def render_html_to_image(html_path, image_path, width=1024, height=768):
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -47,7 +45,12 @@ def render_html_to_image(html_path, image_path, width=1024, height=768):
         page.screenshot(path=image_path, full_page=True)
         browser.close()
 
+def compute_simhash(tokens, f=64):
+    return Simhash(tokens, f=f)
 
+def compute_phash(image_path, hash_size=16):
+    img = Image.open(image_path).convert('L').resize((256, 256))
+    return imagehash.phash(img, hash_size=hash_size)
 
 def build_similarity_graph(paths, simhashes, sim_k=3):
     graph = {p: set() for p in paths}
