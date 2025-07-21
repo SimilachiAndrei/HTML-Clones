@@ -1,7 +1,5 @@
 # HTML Document Clustering by Visual & Structural Similarity
 
-## Problem Statement
-
 The task is to design an algorithm that groups together **HTML documents which are visually and structurally similar**, as perceived by a human user opening them in a browser. This means:
 - Pages that may differ in raw code but look alike should be clustered together.
 - Pages that share layout, structure, and design but with different content should still be grouped.
