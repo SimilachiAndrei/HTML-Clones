@@ -1,0 +1,7 @@
+readability~=0.3.2
+readability-lxml~=0.8.4.1
+simhash~=2.1.2
+lxml~=6.0.0
+ImageHash~=4.3.2
+pillow~=10.4.0
+playwright~=1.48.0
