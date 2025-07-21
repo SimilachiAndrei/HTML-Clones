@@ -1,18 +1,18 @@
 # HTML Document Clustering by Visual & Structural Similarity
 
-The task is to design an algorithm that groups together **HTML documents which are visually and structurally similar**, as perceived by a human user opening them in a browser. This means:
-- Pages that may differ in raw code but look alike should be clustered together.
+The task is to design an algorithm that groups together **HTML documents which are visually and structurally similar**, as perceived by a human user opening them in a browser, which means:
+- Pages that may differ in raw code but look alike should be grouped together.
 - Pages that share layout, structure, and design but with different content should still be grouped.
 
-The dataset contains 4 subdirectories (`tier1`, `tier2`, etc.) with increasing levels of complexity.
+The dataset contains 4 subdirectories (`tier1`, `tier2`, `tier3` and `tier4`) with increasing levels of complexity.
 
 ---
 
 ## My Approach
 
-### Dual-Modality Clustering
+### Dual Clustering
 
-I approached the problem by combining two powerful perspectives:
+I approached the problem by combining two clutering methods:
 
 1. **Structural & Textual Similarity (SimHash)**  
    Extracted semantic content, DOM tags, and CSS class tokens from each HTML page using `readability-lxml` and `lxml`. Then, generated a SimHash fingerprint to capture overall structure and textual features.
@@ -24,8 +24,8 @@ I approached the problem by combining two powerful perspectives:
 
 - Constructed a **similarity graph** where each node is an HTML file.
 - Edges are drawn between files if **either**:
-  - Their SimHash distance ≤ `k` (default: 3)
-  - Their pHash distance ≤ threshold (default: 8)
+  - Their SimHash distance <= `k` (default: 3)
+  - Their pHash distance <= threshold (default: 8)
 - Extracted connected components as final clusters.
 
 This ensures pages that are similar **in any modality** (textual or visual) are grouped.
