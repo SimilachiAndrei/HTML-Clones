@@ -1,6 +1,6 @@
-# 🧠 HTML Document Clustering by Visual & Structural Similarity
+# HTML Document Clustering by Visual & Structural Similarity
 
-## 📝 Problem Statement
+## Problem Statement
 
 The task is to design an algorithm that groups together **HTML documents which are visually and structurally similar**, as perceived by a human user opening them in a browser. This means:
 - Pages that may differ in raw code but look alike should be clustered together.
@@ -10,9 +10,9 @@ The dataset contains 4 subdirectories (`tier1`, `tier2`, etc.) with increasing l
 
 ---
 
-## 🚀 My Approach
+## My Approach
 
-### 🔄 Dual-Modality Clustering
+### Dual-Modality Clustering
 
 I approached the problem by combining two powerful perspectives:
 
@@ -22,7 +22,7 @@ I approached the problem by combining two powerful perspectives:
 2. **Visual Perceptual Similarity (pHash + Screenshot Rendering)**  
    Rendered each HTML file in a headless browser (via Playwright), captured a full-page screenshot, and computed a perceptual hash (`pHash`) using `imagehash`. This allowed grouping based on *how pages look* rather than just *what they contain*.
 
-### 🔗 Graph-Based Clustering
+### Graph-Based Clustering
 
 - Constructed a **similarity graph** where each node is an HTML file.
 - Edges are drawn between files if **either**:
@@ -34,14 +34,14 @@ This ensures pages that are similar **in any modality** (textual or visual) are 
 
 ---
 
-## 🤯 Reasoning & Tradeoffs
+## Reasoning
 
-### ❌ Approaches I Rejected
+### Other Approaches
 - **Raw DOM tree comparison** – fragile to code formatting, tag nesting, or dynamic scripts.
 - **Only using screenshots & CNNs** – expensive to scale, overkill for small datasets, and harder to interpret or debug.
 - **Levenshtein/Tree Edit Distance** – computationally heavy and doesn’t reflect layout similarity well.
 
-### ✅ Why This Worked Well
+### Why This Approach
 - SimHash offers fast, scalable similarity detection for text + structural tokens.
 - Perceptual hashing is robust to minor design changes (colors, spacing, fonts).
 - The dual-feature system is **resilient to noise** and **generalizes well across tiers**.
